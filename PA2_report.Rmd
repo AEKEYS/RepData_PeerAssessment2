@@ -1,6 +1,8 @@
 ---
 title: "Assessing Deadliest, Costliest Weather Events in America (1996-2011)"
-output: html_document
+output: 
+  html_document:
+    keep_md: true
 ---
 
 *Synopsis:* This assessment identifies the deadliest and costliest types of weather events that occured in the United States between 1996 and 2011. Tornadoes, followed by excessive heat and high wind, have been the most deadly in terms of the total number of deaths and injuries.  Floods have been the costliest in terms of aggregate monetary damage to property and crops, although tornadoes, hail, drought, and ice storms have caused significant economic loss in individual years.  The data for this study comes from the National Oceanic and Atmospheric Administration's (NOAA's) [Storm Events Database](http://www.ncdc.noaa.gov/stormevents/) and was conducted as part of a class assessment for the Johns Hopkins University's ["Reproducible Research"](https://www.coursera.org/course/repdata) offered through Coursera.
