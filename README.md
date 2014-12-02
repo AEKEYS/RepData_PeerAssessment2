@@ -1,6 +1,6 @@
-# Assessing Deadliest, Costliest Weather Events in America (1996-2011)
+# Assessing Hazardous, Costly Weather Events in America (1996-2011)
 
-*Synopsis:* This assessment identifies the deadliest and costliest types of weather events that occured in the United States between 1996 and 2011. Tornadoes, followed by excessive heat and high wind, have been the most deadly in terms of the total number of deaths and injuries.  Floods have been the costliest in terms of aggregate monetary damage to property and crops, although tornadoes, hail, drought, and ice storms have caused significant economic loss in individual years.  The data for this study comes from the National Oceanic and Atmospheric Administration's (NOAA's) [Storm Events Database](http://www.ncdc.noaa.gov/stormevents/) and was conducted as part of a class assessment for the Johns Hopkins University's ["Reproducible Research"](https://www.coursera.org/course/repdata) offered through Coursera.
+*Synopsis:* This assessment identifies the most hazardous to life and economically costly types of weather events that occured in the United States between 1996 and 2011. Tornadoes, followed by excessive heat and high wind, have been the most hazardous in terms of the total number of deaths and injuries.  Floods have been the costliest in terms of aggregate monetary damage to property and crops, although tornadoes, hail, drought, and ice storms have caused significant economic loss in individual years.  The data for this study comes from the National Oceanic and Atmospheric Administration's (NOAA's) [Storm Events Database](http://www.ncdc.noaa.gov/stormevents/) and was conducted as part of a class assessment for the Johns Hopkins University's ["Reproducible Research"](https://www.coursera.org/course/repdata) offered through Coursera.
 
 ## DATA PROCESSING
 The NOAA Storm Events Data was downloaded from the Coursera class website and then rows and columns pertaining to event type, population health, and economic consequences were loaded into R. The original data set was messy and necessitated a great deal of cleaning prior to analysis.  This section describes data cleaning decisions.
@@ -115,7 +115,7 @@ print(object.size(storm),units="Mb")
 ## 23.4 Mb
 ```
 
-3) Next, several cleaning steps were taken to correct the multitude of inconsistencies inherent in NOAA's data -- most likely resulting from manual data entry processes.
+3) Next, several cleaning steps were taken to correct inconsistencies inherent in NOAA's data -- most likely resulting from manual data entry processes.
 * Per page 12 of NOAA's [documentation](https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf), property and crop exponentiation fields should only contain B's for "billions", M's for "millions", and K's for "thousands." Since these fields would be necessary for assessing the costliest weather events -- a principle goal of this analysis -- the exponentiation values were standardized. A subsequent operation transformed these letters into their numeric equivalents for later calculation.
 
 
@@ -145,7 +145,7 @@ storm$CROPMTPL[storm$CROPDMGEXP == "M"] <- 1000000
 storm$CROPMTPL[storm$CROPDMGEXP == "H"] <- 100
 ```
 
-* Per page 6 of NOAA's [documentation](https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf), there should be 34 unique event types. This analysis attempted to standardize the most common mistakes, though there are still inconsistencies.
+* Per page 6 of NOAA's [documentation](https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf), there should be 34 unique event types. This analysis attempted to standardize the most common mistakes, though there are still inconsistencies and room for further improvement.
 
 ```r
 whatToFind2 <- c("TSTM WIND","THUNDERSTORMWINDS","TSTM WIND (G45)","THUNDERSTORM WINDSS","THUNDERSTORM","Tstm Wind","TSTMW",
@@ -248,10 +248,6 @@ library(dplyr)
 ## 
 ## Attaching package: 'dplyr'
 ## 
-## The following objects are masked from 'package:xts':
-## 
-##     first, last
-## 
 ## The following object is masked from 'package:stats':
 ## 
 ##     filter
@@ -287,9 +283,9 @@ storm1 <-
 
 ##RESULTS
 
-The most deadly weather events were determined by examining the total number of dead and injured from 1996 to 2011. Earlier events were discarded, because NOAA did not reliably record all event types prior 1996, according to visual inspection of the plotted event types over time. 
+The most hazardous weather events were determined by examining the total number of dead and injured from 1996 to 2011. Earlier events were discarded, since NOAA did not reliably record all event types prior 1996, according to visual inspection of the plotted event types over time. 
 
-* Tornadoes, followed by excessive heat and high wind, have been the most deadly in terms of the total number of deaths and injuries. Excessive heat, however, has caused more deaths than tornadoes.
+* Tornadoes, followed by excessive heat and high wind, have been the most hazardous in terms of the total number of deaths and injuries. Excessive heat, however, has caused more deaths than tornadoes.
 
 
 
@@ -331,14 +327,14 @@ library(gridExtra)
 x <-ggplot(result2,aes(x=YEAR,y=PEOPLE,group=EVTYPE,color=EVTYPE))+
     geom_line(stat="summary",fun.y="sum",size=1)+
     labs(x="Year",y="Dead and Injured")+
-    labs(title="Deadliest Events Over Time")+
+    labs(title="Hazardous Events Over Time")+
     theme_bw()
 
 y <- ggplot(result2, aes(x=reorder(EVTYPE,PEOPLE), y= PEOPLE,fill=STATUS))+
     geom_bar(stat="identity")+ 
     coord_flip()+
     labs(x="Event Type", y = "PEOPLE")+
-    labs(title = "Tornadoes Most Deadly (1996-2011)")+
+    labs(title = "Tornadoes Most Hazardous (1996-2011)")+
     theme_bw() 
 
 grid.arrange(y, x, nrow=2)
@@ -346,7 +342,7 @@ grid.arrange(y, x, nrow=2)
 
 ![](./PA2_report_files/figure-html/unnamed-chunk-9-1.png) 
 
-* Floods have been the costliest in terms of aggregate monetary damage to property and crops, although tornadoes, hail, drought, and ice storms have caused significant economic loss in individual years.
+* Floods have been the costliest in terms of aggregate monetary damage to property and crops, although tornadoes, hail, and ice storms have caused significant economic loss in individual years. Drought is noticeably more damaging to crops than to property.
 
 
 ```r
